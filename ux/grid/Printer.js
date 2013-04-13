@@ -55,6 +55,11 @@
  * Fixed: added support for row expander plugin
  * Tested using Ext JS 4.1.2
  *
+ * Modified by Istvan Manzuk - 2013-Apr-13
+ * Fixed: Ext JS 4.2 compatibility, RowNumberer plugin support
+ * Tested using Ext JS 4.2.0
+ *
+ * https://github.com/imanzuk/extjs4-ux-gridprinter
  */
 Ext.define("Ext.ux.grid.Printer", {
     
@@ -71,7 +76,7 @@ Ext.define("Ext.ux.grid.Printer", {
             var columns = [];
             //account for grouped columns
             Ext.each(grid.columns, function(c) {
-                if(c.items.length > 0) {
+                if(c.items && (c.items.length > 0)) {
                     columns = columns.concat(c.items.items);
                 } else {
                     columns.push(c);
@@ -102,8 +107,8 @@ Ext.define("Ext.ux.grid.Printer", {
                             found = true;
                             
                         } else if (column && column.xtype === 'rownumberer'){
-                            
-                            var varName = Ext.String.createVarName(column.id);
+
+                            var varName = Ext.String.createVarName('_row');
                             convertedData[varName] = (row + 1);
                             found = true;
                             
@@ -134,6 +139,7 @@ Ext.define("Ext.ux.grid.Printer", {
                     clearColumns.push(column);
                 } else  if (column && column.xtype === 'rownumberer'){
                     column.text = 'Row';
+                    column.id = '_row';
                     clearColumns.push(column);
                 } else if (column && column.xtype === 'templatecolumn'){
                     clearColumns.push(column);
