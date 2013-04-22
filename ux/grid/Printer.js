@@ -59,6 +59,10 @@
  * Fixed: Ext JS 4.2 compatibility, RowNumberer plugin support
  * Tested using Ext JS 4.2.0
  *
+ * Modified by Istvan Manzuk - 2013-Apr-22
+ * Fixed: Template column support
+ * Tested using Ext JS 4.2.0
+ *
  * https://github.com/imanzuk/extjs4-ux-gridprinter
  */
 Ext.define("Ext.ux.grid.Printer", {
@@ -101,7 +105,7 @@ Ext.define("Ext.ux.grid.Printer", {
                              * TODO: add the meta to template
                              */
                             var meta = {item: '', tdAttr: '', style: ''};
-                            value = column.renderer ? column.renderer.call(grid, value, meta, item, row, col, grid.store, grid.view) : value;
+                            value = column.renderer ? column.renderer.call(column, value, meta, item, row, col, grid.store, grid.view) : value;
                             var varName = Ext.String.createVarName(column.dataIndex);
                             convertedData[varName] = value;
                             found = true;
